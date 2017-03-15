@@ -20,7 +20,6 @@ import java.util.List;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder> {
 
     private static final String LOG_TAG = MovieAdapter.class.getSimpleName();
-
     private List<Movie> movieList;
     private Context context;
 
@@ -71,4 +70,5 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
             imageViewPoster = (ImageView) itemView.findViewById(R.id.iv_movie_poster);
         }
     }
+
 }

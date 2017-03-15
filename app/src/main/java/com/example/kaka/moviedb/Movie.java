@@ -14,10 +14,10 @@ public class Movie {
     private String voteAverage;
     private String backdropPath;
 
-    public Movie(String movieId, String originalTitle) {
-        this.movieId = movieId;
-        this.originalTitle = originalTitle;
-    }
+//    public Movie(String movieId, String originalTitle) {
+//        this.movieId = movieId;
+//        this.originalTitle = originalTitle;
+//    }
 
     public Movie(String movieId,
                  String originalTitle,
