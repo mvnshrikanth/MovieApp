@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MovieDB</string>
-    <string name="api_key">add a new key here</string>
+    <string name="api_key">a2cced55940910093c14c40be2cadcd4</string>
     <string name="error_message">An error has occurred. Please try again by clicking REFRESH</string>
-    <string name="sort_by_popularity">Sort By Popularity</string>
-    <string name="sort_by_rating">Sort By Rating</string>
+    <string name="sort_by_popularity">Most Popular</string>
+    <string name="sort_by_rating">Highest Rated</string>
 </resources>
