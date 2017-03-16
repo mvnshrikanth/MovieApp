@@ -20,11 +20,13 @@ import java.util.List;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder> {
 
     private static final String LOG_TAG = MovieAdapter.class.getSimpleName();
+    private final MovieAdapterOnClickHandler mClickHandler;
     private List<Movie> movieList;
     private Context context;
 
-    public MovieAdapter(Context context) {
+    public MovieAdapter(Context context, MovieAdapterOnClickHandler mClickHandler) {
         this.context = context;
+        this.mClickHandler = mClickHandler;
     }
 
     @Override
@@ -59,7 +61,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
         notifyDataSetChanged();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public interface MovieAdapterOnClickHandler {
+        void onClick();
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public final TextView textViewTitle;
         public final ImageView imageViewPoster;
@@ -68,6 +74,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
             super(itemView);
             textViewTitle = (TextView) itemView.findViewById(R.id.tv_movie_title);
             imageViewPoster = (ImageView) itemView.findViewById(R.id.iv_movie_poster);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            mClickHandler.onClick();
         }
     }
 

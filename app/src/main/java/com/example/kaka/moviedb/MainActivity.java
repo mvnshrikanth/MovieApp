@@ -1,6 +1,7 @@
 package com.example.kaka.moviedb;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -23,7 +24,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
 
     private ProgressBar progressBar;
     private MovieAdapter movieAdapter;
@@ -31,17 +32,18 @@ public class MainActivity extends AppCompatActivity {
     private TextView textView;
     private String SORT_TYPE_POPULARITY = "popularity.desc";
     private String SORT_TYPE_RATING = "rating.desc";
+    private List<Movie> movieList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        List<Movie> movieList = new ArrayList<>();
+        movieList = new ArrayList<>();
 
         textView = (TextView) findViewById(R.id.tv_error_message_display);
         recyclerView = (RecyclerView) findViewById(R.id.rv_movie_list);
-        movieAdapter = new MovieAdapter(MainActivity.this);
+        movieAdapter = new MovieAdapter(MainActivity.this, MainActivity.this);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, 2);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -88,6 +90,14 @@ public class MainActivity extends AppCompatActivity {
         return networkInfo != null && networkInfo.isConnected();
     }
 
+    @Override
+    public void onClick() {
+        Context context = this;
+        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+        // intent.putExtra("Movie Data", (ArrayList<Movie>) movieList);
+        startActivity(intent);
+    }
+
     public class FetchMovieData extends AsyncTask<String, Void, List<Movie>> {
         private final String LOG_TAG = FetchMovieData.class.getSimpleName();
 
@@ -123,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
             if (!movieReturnList.isEmpty()) {
                 recyclerView.setVisibility(View.VISIBLE);
                 textView.setVisibility(View.INVISIBLE);
+                movieList = movieReturnList;
                 movieAdapter.prepareMovieList(movieReturnList);
             } else {
                 recyclerView.setVisibility(View.INVISIBLE);
