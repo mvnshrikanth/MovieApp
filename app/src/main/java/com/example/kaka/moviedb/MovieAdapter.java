@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -39,14 +38,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Movie movie = movieList.get(position);
-        holder.textViewTitle.setText(movie.getOriginalTitle());
         Log.v(LOG_TAG, String.valueOf(position));
-        if (movie.getPosterPath() != null && !movie.getPosterPath().isEmpty()) {
+        if (movie.getPosterPath().equals("null") || movie.getPosterPath().equals(null) || movie.getPosterPath().equals("")) {
+            holder.imageViewPoster.setImageResource(R.drawable.not_found);
+        } else {
+
             Picasso.with(context)
                     .load("http://image.tmdb.org/t/p/w342/" + movie.getPosterPath())
                     .into(holder.imageViewPoster);
-        } else {
-            holder.imageViewPoster.setImageResource(R.drawable.not_found);
         }
     }
 
@@ -62,24 +61,23 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
     }
 
     public interface MovieAdapterOnClickHandler {
-        void onClick();
+        void onClick(Movie movie);
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public final TextView textViewTitle;
         public final ImageView imageViewPoster;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            textViewTitle = (TextView) itemView.findViewById(R.id.tv_movie_title);
             imageViewPoster = (ImageView) itemView.findViewById(R.id.iv_movie_poster);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            mClickHandler.onClick();
+            Movie movie = movieList.get(getAdapterPosition());
+            mClickHandler.onClick(movie);
         }
     }
 

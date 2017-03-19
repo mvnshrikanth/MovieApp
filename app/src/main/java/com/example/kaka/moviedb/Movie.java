@@ -1,10 +1,12 @@
 package com.example.kaka.moviedb;
 
+import java.io.Serializable;
+
 /**
  * Created by Kaka on 3/14/2017.
  */
 
-public class Movie {
+public class Movie implements Serializable {
 
     private String movieId;
     private String originalTitle;
@@ -28,10 +30,6 @@ public class Movie {
         this.overview = overview;
         this.voteAverage = voteAverage;
         this.backdropPath = backdropPath;
-    }
-
-    public Movie() {
-
     }
 
     public String getMovieId() {

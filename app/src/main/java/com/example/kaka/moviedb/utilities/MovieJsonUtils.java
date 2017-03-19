@@ -15,12 +15,12 @@ import java.util.List;
 
 public class MovieJsonUtils {
 
-    public static final String ORIGNAL_TITLE = "original_title";
+    public static final String ORIGINAL_TITLE = "original_title";
     public static final String POSTER_PATH = "poster_path";
     public static final String RELEASE_DATE = "release_date";
     public static final String OVERVIEW = "overview";
     public static final String VOTE_AVERAGE = "vote_average";
-    public static final String BACKDRP_IMAGE = "backdrop_path";
+    public static final String BACKDROP_IMAGE = "backdrop_path";
     public static final String MOVIE_ID = "id";
 
     public static final String REVIEWS = "content";
@@ -39,12 +39,12 @@ public class MovieJsonUtils {
         for (int i = 0; i < allMovieJsonArray.length(); i++) {
             JSONObject movieDataObj = allMovieJsonArray.getJSONObject(i);
             movieList.add(new Movie(movieDataObj.getString(MOVIE_ID),
-                    movieDataObj.getString(ORIGNAL_TITLE),
+                    movieDataObj.getString(ORIGINAL_TITLE),
                     movieDataObj.getString(POSTER_PATH),
                     movieDataObj.getString(RELEASE_DATE),
                     movieDataObj.getString(OVERVIEW),
                     movieDataObj.getString(VOTE_AVERAGE),
-                    movieDataObj.getString(BACKDRP_IMAGE)));
+                    movieDataObj.getString(BACKDROP_IMAGE)));
         }
         return movieList;
     }

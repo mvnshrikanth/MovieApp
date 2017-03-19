@@ -1,9 +1,6 @@
 package com.example.kaka.moviedb;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -26,12 +23,14 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
 
+    public static final String MOVIE_DATA = "MOVIE";
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private final String SORT_TYPE_POPULARITY = "popularity.desc";
+    private final String SORT_TYPE_RATING = "rating.desc";
     private ProgressBar progressBar;
     private MovieAdapter movieAdapter;
     private RecyclerView recyclerView;
     private TextView textView;
-    private String SORT_TYPE_POPULARITY = "popularity.desc";
-    private String SORT_TYPE_RATING = "rating.desc";
     private List<Movie> movieList;
 
     @Override
@@ -76,25 +75,21 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     private void loadMovieData(String sort_type) {
-        recyclerView.setVisibility(View.VISIBLE);
-        textView.setVisibility(View.INVISIBLE);
-
-        if (networkAvailable()) {
-            new FetchMovieData().execute(sort_type);
-        }
+//        if (networkAvailable()) {
+        new FetchMovieData().execute(sort_type);
+//        }
     }
 
-    public boolean networkAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        return networkInfo != null && networkInfo.isConnected();
-    }
+//    private boolean networkAvailable() {
+//        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+//        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+//        return networkInfo != null && networkInfo.isConnected();
+//    }
 
     @Override
-    public void onClick() {
-        Context context = this;
-        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-        // intent.putExtra("Movie Data", (ArrayList<Movie>) movieList);
+    public void onClick(Movie movie) {
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra(MOVIE_DATA, movie);
         startActivity(intent);
     }
 
@@ -130,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         @Override
         protected void onPostExecute(List<Movie> movieReturnList) {
             progressBar.setVisibility(View.INVISIBLE);
-            if (!movieReturnList.isEmpty()) {
+            if (movieReturnList != null) {
                 recyclerView.setVisibility(View.VISIBLE);
                 textView.setVisibility(View.INVISIBLE);
                 movieList = movieReturnList;
