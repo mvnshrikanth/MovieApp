@@ -75,16 +75,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     private void loadMovieData(String sort_type) {
-//        if (networkAvailable()) {
         new FetchMovieData().execute(sort_type);
-//        }
     }
-
-//    private boolean networkAvailable() {
-//        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-//        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-//        return networkInfo != null && networkInfo.isConnected();
-//    }
 
     @Override
     public void onClick(Movie movie) {
