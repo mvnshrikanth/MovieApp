@@ -1,6 +1,7 @@
 package com.example.kaka.moviedb;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -25,8 +26,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     public static final String MOVIE_DATA = "MOVIE";
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
-    private final String SORT_TYPE_POPULARITY = "popularity.desc";
-    private final String SORT_TYPE_RATING = "rating.desc";
+    public final String SORT_TYPE_POPULARITY = "popularity";
+    public final String SORT_TYPE_RATING = "rating";
     private ProgressBar progressBar;
     private MovieAdapter movieAdapter;
     private RecyclerView recyclerView;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        GridLayoutManager gridLayoutManager;
 
         movieList = new ArrayList<>();
 
@@ -44,7 +46,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         recyclerView = (RecyclerView) findViewById(R.id.rv_movie_list);
         movieAdapter = new MovieAdapter(MainActivity.this, MainActivity.this);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, 2);
+        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            gridLayoutManager = new GridLayoutManager(MainActivity.this, 2);
+
+        } else {
+            gridLayoutManager = new GridLayoutManager(MainActivity.this, 4);
+        }
+
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setHasFixedSize(true);

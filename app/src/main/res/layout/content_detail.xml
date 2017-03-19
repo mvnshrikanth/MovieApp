@@ -17,16 +17,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            app:cardElevation="3dp">
+            android:layout_marginLeft="@dimen/layout_margins"
+            android:layout_marginRight="@dimen/layout_margins"
+            android:layout_marginTop="@dimen/layout_margins"
+            app:cardElevation="@dimen/card_elevation">
 
             <ImageView
                 android:id="@+id/iv_movie_poster"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:padding="@dimen/poster_padding"
                 android:scaleType="fitXY" />
         </android.support.v7.widget.CardView>
 
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/cv_movie_poster"
             android:layout_toEndOf="@+id/cv_movie_poster"
-            app:cardElevation="3dp">
+            app:cardElevation="@dimen/card_elevation">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -44,10 +44,10 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/icon_width_height"
+                    android:layout_height="@dimen/icon_width_height"
                     android:layout_gravity="center"
-                    android:paddingLeft="5dp"
+                    android:paddingLeft="@dimen/poster_padding"
                     android:src="@drawable/ic_date_range_black_24dp" />
 
                 <TextView
@@ -55,7 +55,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:padding="10dp"
+                    android:padding="@dimen/detail_activity_text_padding"
+                    android:textAlignment="center"
                     android:textAppearance="?android:textAppearanceSmall"
                     android:textColor="@color/colorPrimaryDark" />
             </LinearLayout>
@@ -63,13 +64,14 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
+            android:id="@+id/cv_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/cv_release_date"
             android:layout_alignStart="@+id/cv_release_date"
             android:layout_below="@+id/cv_release_date"
             android:layout_marginTop="5dp"
-            app:cardElevation="5dp">
+            app:cardElevation="@dimen/card_elevation">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -77,10 +79,10 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/icon_width_height"
+                    android:layout_height="@dimen/icon_width_height"
                     android:layout_gravity="center"
-                    android:paddingLeft="5dp"
+                    android:paddingStart="@dimen/poster_padding"
                     android:src="@drawable/ic_star_black_24dp" />
 
                 <TextView
@@ -88,7 +90,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:padding="10dp"
+                    android:padding="@dimen/detail_activity_text_padding"
                     android:textAlignment="center"
                     android:textAppearance="?android:textAppearanceSmall"
                     android:textColor="@color/colorPrimaryDark" />
@@ -96,21 +98,20 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
+            android:id="@+id/cv_overview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/cv_movie_poster"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="10dp"
-            app:cardElevation="5dp">
+            android:layout_margin="@dimen/overview_margin"
+            app:cardElevation="@dimen/card_elevation">
 
             <TextView
                 android:id="@+id/tv_overview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:padding="@dimen/detail_activity_text_padding"
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="@color/colorPrimaryDark" />
         </android.support.v7.widget.CardView>

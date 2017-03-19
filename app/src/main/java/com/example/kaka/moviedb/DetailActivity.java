@@ -23,7 +23,7 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         final Movie movie;
-        movie = (Movie) this.getIntent().getSerializableExtra(MOVIE_DATA);
+        movie = this.getIntent().getParcelableExtra(MOVIE_DATA);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -52,14 +52,14 @@ public class DetailActivity extends AppCompatActivity {
                 imageViewBackdrop.setImageResource(R.drawable.not_found);
             } else {
                 Picasso.with(this)
-                        .load("http://image.tmdb.org/t/p/w1000/" + movie.getBackdropPath())
+                        .load("http://image.tmdb.org/t/p/w1280/" + movie.getBackdropPath())
                         .into(imageViewBackdrop);
             }
             if (movie.getPosterPath().equals("null") || movie.getPosterPath().equals("")) {
                 imageViewPoster.setImageResource(R.drawable.not_found);
             } else {
                 Picasso.with(this)
-                        .load("http://image.tmdb.org/t/p/w342/" + movie.getPosterPath())
+                        .load("http://image.tmdb.org/t/p/w500/" + movie.getPosterPath())
                         .into(imageViewPoster);
             }
             if (movie.getOverview().equals("null") || movie.getOverview().equals("")) {
@@ -79,7 +79,7 @@ public class DetailActivity extends AppCompatActivity {
             }
 
         } catch (NullPointerException e) {
-            Log.e(LOG_TAG, "Exception occured", e);
+            Log.e(LOG_TAG, "Exception occurred", e);
         }
 
 

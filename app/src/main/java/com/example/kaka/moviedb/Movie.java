@@ -1,13 +1,25 @@
 package com.example.kaka.moviedb;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by Kaka on 3/14/2017.
  */
 
-public class Movie implements Serializable {
+public class Movie implements Parcelable {
 
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
     private String movieId;
     private String originalTitle;
     private String posterPath;
@@ -15,6 +27,16 @@ public class Movie implements Serializable {
     private String overview;
     private String voteAverage;
     private String backdropPath;
+
+    protected Movie(Parcel in) {
+        movieId = in.readString();
+        originalTitle = in.readString();
+        posterPath = in.readString();
+        releaseDate = in.readString();
+        overview = in.readString();
+        voteAverage = in.readString();
+        backdropPath = in.readString();
+    }
 
     public Movie(String movieId,
                  String originalTitle,
@@ -30,6 +52,22 @@ public class Movie implements Serializable {
         this.overview = overview;
         this.voteAverage = voteAverage;
         this.backdropPath = backdropPath;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(movieId);
+        dest.writeString(originalTitle);
+        dest.writeString(posterPath);
+        dest.writeString(releaseDate);
+        dest.writeString(overview);
+        dest.writeString(voteAverage);
+        dest.writeString(backdropPath);
     }
 
     public String getMovieId() {
@@ -133,4 +171,5 @@ public class Movie implements Serializable {
                 return "misc";
         }
     }
+
 }

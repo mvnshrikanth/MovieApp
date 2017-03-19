@@ -44,7 +44,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
         } else {
 
             Picasso.with(context)
-                    .load("http://image.tmdb.org/t/p/w342/" + movie.getPosterPath())
+                    .load("http://image.tmdb.org/t/p/w500/" + movie.getPosterPath())
                     .into(holder.imageViewPoster);
         }
     }

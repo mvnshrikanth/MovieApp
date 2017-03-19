@@ -21,22 +21,29 @@ import java.net.URL;
 public class NetworkUtils {
 
     private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
-    private static final String MOVIE_URL = "http://api.themoviedb.org/3/discover/movie?";
+    private static final String MOVIE_TOP_RATED_BASE_URL = "https://api.themoviedb.org/3/movie/top_rated?";
+    private static final String MOVIE_POPULAR_BASE_URL = "https://api.themoviedb.org/3/movie/popular?";
     private static final String SORT_PARAM = "sort_by";
     private static final String API_KEY_PARAM = "api_key";
 
-    //http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=a2cced55940910093c14c40be2cadcd4
-
     public static URL buildURL(Context context, String sort_by) {
         URL url = null;
-        Uri builtUri = Uri.parse(MOVIE_URL).buildUpon()
-                .appendQueryParameter(SORT_PARAM, sort_by)
-                .appendQueryParameter(API_KEY_PARAM, context.getResources().getString(R.string.api_key))
-                .build();
+        Uri builtUri;
+        if (sort_by.equals("popularity")) {
+            builtUri = Uri.parse(MOVIE_POPULAR_BASE_URL).buildUpon()
+                    .appendQueryParameter(SORT_PARAM, sort_by)
+                    .appendQueryParameter(API_KEY_PARAM, context.getResources().getString(R.string.api_key))
+                    .build();
+        } else {
+            builtUri = Uri.parse(MOVIE_TOP_RATED_BASE_URL).buildUpon()
+                    .appendQueryParameter(SORT_PARAM, sort_by)
+                    .appendQueryParameter(API_KEY_PARAM, context.getResources().getString(R.string.api_key))
+                    .build();
+        }
         try {
             url = new URL(builtUri.toString());
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Log.e(LOG_TAG, "Exception occurred", e);
         }
         return url;
     }
