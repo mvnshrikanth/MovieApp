@@ -27,7 +27,6 @@ public class DetailActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        this.setTitle(movie.getOriginalTitle());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -43,10 +42,17 @@ public class DetailActivity extends AppCompatActivity {
         TextView textViewRlsDt = (TextView) findViewById(R.id.tv_release_date);
         TextView textViewRating = (TextView) findViewById(R.id.tv_rating);
         TextView textViewOverview = (TextView) findViewById(R.id.tv_overview);
+        TextView textViewTitle = (TextView) findViewById(R.id.tv_movie_title);
 
         try {
 
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+            if (movie.getOriginalTitle().equals("null") || movie.getOriginalTitle().equals("")) {
+                textViewTitle.setText("NA");
+            } else {
+                textViewTitle.setText(movie.getOriginalTitle());
+            }
 
             if (movie.getBackdropPath().equals("null") || movie.getBackdropPath().equals("")) {
                 imageViewBackdrop.setImageResource(R.drawable.not_found);

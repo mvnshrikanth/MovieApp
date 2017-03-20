@@ -1,33 +1,36 @@
 package com.example.kaka.moviedb;
 
+import android.app.LoaderManager;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.res.Configuration;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.kaka.moviedb.utilities.MovieJsonUtils;
+import com.example.kaka.moviedb.utilities.MovieLoader;
 import com.example.kaka.moviedb.utilities.NetworkUtils;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
+public class MainActivity extends AppCompatActivity
+        implements MovieAdapter.MovieAdapterOnClickHandler, LoaderManager.LoaderCallbacks<List<Movie>> {
 
     public static final String MOVIE_DATA = "MOVIE";
+    public static final String SORT_TYPE_POPULARITY = "popularity";
+    public static final String SORT_TYPE_RATING = "rating";
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
-    public final String SORT_TYPE_POPULARITY = "popularity";
-    public final String SORT_TYPE_RATING = "rating";
+    private static final int MOVIE_LOADER_ID = 1;
+
     private ProgressBar progressBar;
     private MovieAdapter movieAdapter;
     private RecyclerView recyclerView;
@@ -83,7 +86,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     private void loadMovieData(String sort_type) {
-        new FetchMovieData().execute(sort_type);
+        LoaderManager loaderManager = getLoaderManager();
+        Bundle bundle = new Bundle();
+        bundle.putString("sort_type", sort_type);
+        loaderManager.initLoader(MOVIE_LOADER_ID, bundle, this);
+
     }
 
     @Override
@@ -93,49 +100,28 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         startActivity(intent);
     }
 
-    public class FetchMovieData extends AsyncTask<String, Void, List<Movie>> {
-        private final String LOG_TAG = FetchMovieData.class.getSimpleName();
+    @Override
+    public Loader<List<Movie>> onCreateLoader(int id, Bundle args) {
+        URL movieRequestUrl = NetworkUtils.buildURL(MainActivity.this, args.getString("sort_type"));
+        return new MovieLoader(this, movieRequestUrl);
+    }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected List<Movie> doInBackground(String... params) {
-
-            List<Movie> movieReturnList;
-            if (params.length == 0) {
-                return null;
-            }
-
-            URL movieRequestUrl = NetworkUtils.buildURL(MainActivity.this, params[0]);
-
-            try {
-                String jsonMovieResponse = NetworkUtils.getResponseFromHttpUrl(movieRequestUrl);
-                movieReturnList = MovieJsonUtils.getMovieListFromJson(jsonMovieResponse);
-                return movieReturnList;
-            } catch (Exception e) {
-                Log.e(LOG_TAG, "Error", e);
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(List<Movie> movieReturnList) {
-            progressBar.setVisibility(View.INVISIBLE);
-            if (movieReturnList != null) {
-                recyclerView.setVisibility(View.VISIBLE);
-                textView.setVisibility(View.INVISIBLE);
-                movieList = movieReturnList;
-                movieAdapter.prepareMovieList(movieReturnList);
-            } else {
-                recyclerView.setVisibility(View.INVISIBLE);
-                textView.setVisibility(View.VISIBLE);
-            }
-
+    @Override
+    public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> movieReturnList) {
+        progressBar.setVisibility(View.INVISIBLE);
+        if (movieReturnList != null) {
+            recyclerView.setVisibility(View.VISIBLE);
+            textView.setVisibility(View.INVISIBLE);
+            movieList = movieReturnList;
+            movieAdapter.prepareMovieList(movieReturnList);
+        } else {
+            recyclerView.setVisibility(View.INVISIBLE);
+            textView.setVisibility(View.VISIBLE);
         }
     }
 
+    @Override
+    public void onLoaderReset(Loader<List<Movie>> loader) {
+
+    }
 }

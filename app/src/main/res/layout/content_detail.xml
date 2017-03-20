@@ -10,7 +10,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <android.support.v7.widget.CardView
             android:id="@+id/cv_movie_poster"
@@ -31,35 +31,45 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:id="@+id/cv_release_date"
+            android:id="@+id/cv_movie_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/cv_movie_poster"
             android:layout_toEndOf="@+id/cv_movie_poster"
             app:cardElevation="@dimen/card_elevation">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/tv_movie_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_gravity="center"
+                android:padding="@dimen/detail_activity_text_padding"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold" />
 
-                <ImageView
-                    android:layout_width="@dimen/icon_width_height"
-                    android:layout_height="@dimen/icon_width_height"
-                    android:layout_gravity="center"
-                    android:paddingLeft="@dimen/poster_padding"
-                    android:src="@drawable/ic_date_range_black_24dp" />
+        </android.support.v7.widget.CardView>
 
-                <TextView
-                    android:id="@+id/tv_release_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/detail_activity_text_padding"
-                    android:textAlignment="center"
-                    android:textAppearance="?android:textAppearanceSmall"
-                    android:textColor="@color/colorPrimaryDark" />
-            </LinearLayout>
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_release_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/cv_movie_title"
+            android:layout_below="@+id/cv_movie_title"
+            android:layout_marginTop="5dp"
+            app:cardElevation="@dimen/card_elevation">
+
+            <TextView
+                android:id="@+id/tv_release_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawablePadding="@dimen/poster_padding"
+                android:drawableStart="@drawable/ic_date_range_black_24dp"
+                android:padding="5dp"
+                android:textAlignment="center"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/colorPrimaryDark" />
 
         </android.support.v7.widget.CardView>
 
@@ -67,34 +77,23 @@
             android:id="@+id/cv_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/cv_release_date"
             android:layout_alignStart="@+id/cv_release_date"
             android:layout_below="@+id/cv_release_date"
             android:layout_marginTop="5dp"
             app:cardElevation="@dimen/card_elevation">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/tv_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_gravity="center"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/ic_star_black_24dp"
+                android:padding="5dp"
+                android:textAlignment="center"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/colorPrimaryDark" />
 
-                <ImageView
-                    android:layout_width="@dimen/icon_width_height"
-                    android:layout_height="@dimen/icon_width_height"
-                    android:layout_gravity="center"
-                    android:paddingStart="@dimen/poster_padding"
-                    android:src="@drawable/ic_star_black_24dp" />
-
-                <TextView
-                    android:id="@+id/tv_rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/detail_activity_text_padding"
-                    android:textAlignment="center"
-                    android:textAppearance="?android:textAppearanceSmall"
-                    android:textColor="@color/colorPrimaryDark" />
-            </LinearLayout>
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
@@ -115,6 +114,7 @@
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="@color/colorPrimaryDark" />
         </android.support.v7.widget.CardView>
+
     </RelativeLayout>
 
 </android.support.v4.widget.NestedScrollView>
