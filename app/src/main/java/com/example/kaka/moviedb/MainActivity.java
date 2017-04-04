@@ -86,11 +86,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void loadMovieData(String sort_type) {
+
         LoaderManager loaderManager = getLoaderManager();
         Bundle bundle = new Bundle();
         bundle.putString("sort_type", sort_type);
-        loaderManager.initLoader(MOVIE_LOADER_ID, bundle, this);
 
+        if (movieList.isEmpty()) {
+            loaderManager.initLoader(MOVIE_LOADER_ID, bundle, this);
+        } else {
+            loaderManager.restartLoader(MOVIE_LOADER_ID, bundle, this);
+        }
     }
 
     @Override
