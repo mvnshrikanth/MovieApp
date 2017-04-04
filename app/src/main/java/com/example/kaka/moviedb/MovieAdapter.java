@@ -39,7 +39,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Movie movie = movieList.get(position);
         Log.v(LOG_TAG, String.valueOf(position));
-        if (movie.getPosterPath().equals("null") || movie.getPosterPath().equals(null) || movie.getPosterPath().equals("")) {
+        if (movie.getPosterPath().equals("null") || movie.getPosterPath().equals("")) {
             holder.imageViewPoster.setImageResource(R.drawable.not_found);
         } else {
 

@@ -122,6 +122,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLoaderReset(Loader<List<Movie>> loader) {
-
+        movieList.clear();
     }
 }
