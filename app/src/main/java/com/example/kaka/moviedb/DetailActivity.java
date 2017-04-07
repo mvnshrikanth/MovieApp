@@ -3,6 +3,8 @@ package com.example.kaka.moviedb;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -41,8 +43,9 @@ public class DetailActivity extends AppCompatActivity {
         ImageView imageViewPoster = (ImageView) findViewById(R.id.iv_movie_poster);
         TextView textViewRlsDt = (TextView) findViewById(R.id.tv_release_date);
         TextView textViewRating = (TextView) findViewById(R.id.tv_rating);
-        TextView textViewOverview = (TextView) findViewById(R.id.tv_overview);
         TextView textViewTitle = (TextView) findViewById(R.id.tv_movie_title);
+
+//        TextView textViewOverview = (TextView) findViewById(R.id.tv_overview);
 
         try {
 
@@ -68,25 +71,33 @@ public class DetailActivity extends AppCompatActivity {
                         .load("http://image.tmdb.org/t/p/w500/" + movie.getPosterPath())
                         .into(imageViewPoster);
             }
-            if (movie.getOverview().equals("null") || movie.getOverview().equals("")) {
-                textViewOverview.setText("NA");
-            } else {
-                textViewOverview.setText(movie.getOverview());
-            }
             if (movie.getVoteAverage().equals("null") || movie.getVoteAverage().equals("")) {
-                textViewOverview.setText("NA");
+                textViewRating.setText("NA");
             } else {
                 textViewRating.setText(movie.getVoteAverage());
             }
             if (movie.getReleaseDate().equals("null") || movie.getReleaseDate().equals("")) {
-                textViewOverview.setText("NA");
+                textViewRlsDt.setText("NA");
             } else {
                 textViewRlsDt.setText(movie.getReleaseDate());
             }
 
+//            if (movie.getOverview().equals("null") || movie.getOverview().equals("")) {
+//                textViewOverview.setText("NA");
+//            } else {
+//                textViewOverview.setText(movie.getOverview());
+//            }
+
         } catch (NullPointerException e) {
             Log.e(LOG_TAG, "Exception occurred", e);
         }
+
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        CategoryAdapter categoryAdapter = new CategoryAdapter(this, getSupportFragmentManager());
+        viewPager.setAdapter(categoryAdapter);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout.setupWithViewPager(viewPager);
 
 
     }

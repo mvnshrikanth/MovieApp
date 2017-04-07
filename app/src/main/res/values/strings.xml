@@ -6,4 +6,9 @@
     <string name="sort_by_rating">Highest Rated</string>
     <string name="title_activity_detail"> </string>
     <string name="str_movie_backdrop_image">Movie Backdrop Image</string>
+    <string name="str_movie_poster">Movie Poster</string>
+    <string name="str_category_overview">Overview</string>
+    <string name="str_category_reviews">Reviews</string>
+    <string name="str_category_trailers">Trailers</string>
+
 </resources>
