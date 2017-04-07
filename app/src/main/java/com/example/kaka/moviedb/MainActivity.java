@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.kaka.moviedb.data.Movie;
 import com.example.kaka.moviedb.utilities.MovieLoader;
 import com.example.kaka.moviedb.utilities.NetworkUtils;
 

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.kaka.moviedb.data.Movie;
 import com.squareup.picasso.Picasso;
 
 import static com.example.kaka.moviedb.MainActivity.MOVIE_DATA;
@@ -44,8 +45,7 @@ public class DetailActivity extends AppCompatActivity {
         TextView textViewRlsDt = (TextView) findViewById(R.id.tv_release_date);
         TextView textViewRating = (TextView) findViewById(R.id.tv_rating);
         TextView textViewTitle = (TextView) findViewById(R.id.tv_movie_title);
-
-//        TextView textViewOverview = (TextView) findViewById(R.id.tv_overview);
+        TextView textViewGenre = (TextView) findViewById(R.id.tv_genre);
 
         try {
 
@@ -82,11 +82,11 @@ public class DetailActivity extends AppCompatActivity {
                 textViewRlsDt.setText(movie.getReleaseDate());
             }
 
-//            if (movie.getOverview().equals("null") || movie.getOverview().equals("")) {
-//                textViewOverview.setText("NA");
-//            } else {
-//                textViewOverview.setText(movie.getOverview());
-//            }
+            if (movie.getGenre().equals("null") || movie.getGenre().equals("")) {
+                textViewGenre.setText("NA");
+            } else {
+                textViewGenre.setText(movie.getGenre());
+            }
 
         } catch (NullPointerException e) {
             Log.e(LOG_TAG, "Exception occurred", e);
