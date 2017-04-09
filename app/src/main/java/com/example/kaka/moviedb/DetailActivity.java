@@ -1,9 +1,14 @@
 package com.example.kaka.moviedb;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,14 +31,14 @@ public class DetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action" + movie.getOriginalTitle(), Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action " + movie.getOriginalTitle(), Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
 
         ImageView imageViewBackdrop = (ImageView) findViewById(R.id.iv_movie_backdrop);
         ImageView imageViewPoster = (ImageView) findViewById(R.id.iv_movie_poster);
@@ -87,13 +92,12 @@ public class DetailActivity extends AppCompatActivity {
             Log.e(LOG_TAG, "Exception occurred", e);
         }
 
-//        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
-//        CategoryAdapter categoryAdapter = new CategoryAdapter(this, getSupportFragmentManager());
-//        viewPager.setAdapter(categoryAdapter);
-//
-//        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-//        tabLayout.setupWithViewPager(viewPager);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        CategoryAdapter categoryAdapter = new CategoryAdapter(this, getSupportFragmentManager());
+        viewPager.setAdapter(categoryAdapter);
 
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout.setupWithViewPager(viewPager);
 
     }
 }

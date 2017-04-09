@@ -21,8 +21,6 @@ public class MovieOverviewsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        View rootView = inflater.inflate(R.layout.movie_overview, container, false);
-//        return rootView;
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return inflater.inflate(R.layout.movie_overview_fragment, container, false);
     }
 }
