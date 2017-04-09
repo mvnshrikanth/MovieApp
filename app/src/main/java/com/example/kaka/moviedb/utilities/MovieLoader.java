@@ -4,7 +4,7 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.kaka.moviedb.Movie;
+import com.example.kaka.moviedb.data.Movie;
 
 import java.net.URL;
 import java.util.List;

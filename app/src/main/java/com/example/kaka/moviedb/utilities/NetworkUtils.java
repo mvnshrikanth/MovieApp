@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
+import com.example.kaka.moviedb.MainActivity;
 import com.example.kaka.moviedb.R;
 
 import java.io.BufferedReader;
@@ -29,7 +30,7 @@ public class NetworkUtils {
     public static URL buildURL(Context context, String sort_by) {
         URL url = null;
         Uri builtUri;
-        if (sort_by.equals("popularity")) {
+        if (sort_by.equals(MainActivity.SORT_TYPE_POPULARITY)) {
             builtUri = Uri.parse(MOVIE_POPULAR_BASE_URL).buildUpon()
                     .appendQueryParameter(SORT_PARAM, sort_by)
                     .appendQueryParameter(API_KEY_PARAM, context.getResources().getString(R.string.api_key))

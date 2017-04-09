@@ -1,4 +1,4 @@
-package com.example.kaka.moviedb;
+package com.example.kaka.moviedb.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -20,6 +20,7 @@ public class Movie implements Parcelable {
             return new Movie[size];
         }
     };
+
     private String movieId;
     private String originalTitle;
     private String posterPath;
@@ -27,6 +28,8 @@ public class Movie implements Parcelable {
     private String overview;
     private String voteAverage;
     private String backdropPath;
+    private String genre;
+
 
     protected Movie(Parcel in) {
         movieId = in.readString();
@@ -36,6 +39,7 @@ public class Movie implements Parcelable {
         overview = in.readString();
         voteAverage = in.readString();
         backdropPath = in.readString();
+        genre = in.readString();
     }
 
     public Movie(String movieId,
@@ -44,7 +48,7 @@ public class Movie implements Parcelable {
                  String releaseDate,
                  String overview,
                  String voteAverage,
-                 String backdropPath) {
+                 String backdropPath, String genre) {
         this.movieId = movieId;
         this.originalTitle = originalTitle;
         this.posterPath = posterPath;
@@ -52,6 +56,7 @@ public class Movie implements Parcelable {
         this.overview = overview;
         this.voteAverage = voteAverage;
         this.backdropPath = backdropPath;
+        this.genre = genre;
     }
 
     @Override
@@ -68,6 +73,7 @@ public class Movie implements Parcelable {
         dest.writeString(overview);
         dest.writeString(voteAverage);
         dest.writeString(backdropPath);
+        dest.writeString(genre);
     }
 
     public String getMovieId() {
@@ -126,50 +132,13 @@ public class Movie implements Parcelable {
         this.backdropPath = backdropPath;
     }
 
-    private String getGenre(int genreId) {
-
-        switch (genreId) {
-            case 28:
-                return "Action";
-            case 12:
-                return "Adventure";
-            case 16:
-                return "Animation";
-            case 35:
-                return "Comedy";
-            case 80:
-                return "Crime";
-            case 99:
-                return "Documentary";
-            case 18:
-                return "Drama";
-            case 10751:
-                return "Family";
-            case 14:
-                return "Fantasy";
-            case 36:
-                return "History";
-            case 27:
-                return "Horror";
-            case 10402:
-                return "Music";
-            case 9648:
-                return "Mystery";
-            case 10749:
-                return "Romance";
-            case 878:
-                return "Science Fiction";
-            case 10770:
-                return "TV Movie";
-            case 53:
-                return "Thriller";
-            case 10752:
-                return "War";
-            case 37:
-                return "Western";
-            default:
-                return "misc";
-        }
+    public String getGenre() {
+        return genre;
     }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
 
 }
