@@ -42,6 +42,8 @@
     <android.support.v4.widget.NestedScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="8dp"
+
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <RelativeLayout
@@ -76,6 +78,8 @@
                     android:id="@+id/tv_movie_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="64dp"
+                    android:layout_marginStart="8dp"
                     android:padding="@dimen/poster_padding"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@android:color/black"
@@ -86,6 +90,7 @@
                     android:id="@+id/tv_release_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:drawablePadding="@dimen/poster_padding"
                     android:drawableStart="@drawable/ic_date_range_black_24dp"
                     android:gravity="start"
@@ -98,6 +103,7 @@
                     android:id="@+id/tv_rating"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:drawablePadding="@dimen/poster_padding"
                     android:drawableStart="@drawable/ic_star_black_24dp"
                     android:gravity="start"
@@ -110,6 +116,7 @@
                     android:id="@+id/tv_genre"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:padding="@dimen/poster_padding"
                     android:textAppearance="?android:textAppearanceSmall"
                     android:textColor="@android:color/black"
