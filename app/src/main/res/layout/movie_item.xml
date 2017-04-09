@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/iv_movie_poster"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/photo_size"
+        android:layout_height="wrap_content"
         android:contentDescription="@string/str_movie_poster"
         android:scaleType="fitXY"
         android:src="@drawable/not_found" />
