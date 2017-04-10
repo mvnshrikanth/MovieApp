@@ -159,7 +159,6 @@ public class DetailActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(List<MovieReview> movieReviews) {
-            movieReviewsList = movieReviews;
             progressDialog.setProgress(100);
             progressDialog.dismiss();
         }
@@ -189,7 +188,6 @@ public class DetailActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(List<MovieTrailer> movieTrailrs) {
-            movieTrailersList = movieTrailrs;
             progressDialog.setProgress(100);
             progressDialog.dismiss();
             Toast.makeText(DetailActivity.this, "Trailer Name" + movieReviewsList, Toast.LENGTH_SHORT).show();
