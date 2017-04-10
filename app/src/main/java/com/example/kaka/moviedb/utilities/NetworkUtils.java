@@ -51,7 +51,7 @@ public class NetworkUtils {
         return url;
     }
 
-    public static URL buildURL(Context context, String url_typ, int movieID) {
+    public static URL buildURL(Context context, String url_typ, String movieID) {
         URL url = null;
         Uri builtUri;
         if (url_typ.equals(DetailActivity.MOVIE_REVIEWS)) {

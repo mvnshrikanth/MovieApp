@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.kaka.moviedb.data.Movie;
 import com.example.kaka.moviedb.data.MovieReview;
@@ -116,14 +115,14 @@ public class DetailActivity extends AppCompatActivity {
             Log.e(LOG_TAG, "Exception occurred", e);
         }
 
+        loadMovieTrailersAndReviews(movie.getMovieId());
+
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         CategoryAdapter categoryAdapter = new CategoryAdapter(this, getSupportFragmentManager());
         viewPager.setAdapter(categoryAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
-
-        loadMovieTrailersAndReviews(movie.getMovieId());
 
     }
 
@@ -147,7 +146,7 @@ public class DetailActivity extends AppCompatActivity {
         @Override
         protected List<MovieReview> doInBackground(String... params) {
             try {
-                URL movieReviewUrl = NetworkUtils.buildURL(DetailActivity.this, params[0]);
+                URL movieReviewUrl = NetworkUtils.buildURL(DetailActivity.this, DetailActivity.MOVIE_REVIEWS, params[0]);
                 String jsonReviewResponse = NetworkUtils.getResponseFromHttpUrl(movieReviewUrl);
                 movieReviews = MovieJsonUtils.getMovieReviewListFromJson(jsonReviewResponse);
             } catch (Exception e) {
@@ -176,7 +175,7 @@ public class DetailActivity extends AppCompatActivity {
         @Override
         protected List<MovieTrailer> doInBackground(String... params) {
             try {
-                URL movieTrailersUrl = NetworkUtils.buildURL(DetailActivity.this, params[0]);
+                URL movieTrailersUrl = NetworkUtils.buildURL(DetailActivity.this, DetailActivity.MOVIE_TRAILERS, params[0]);
                 String jsonTrailersResponse = NetworkUtils.getResponseFromHttpUrl(movieTrailersUrl);
                 movieTrailers = MovieJsonUtils.getMovieTrailersListFromJson(jsonTrailersResponse);
             } catch (Exception e) {
@@ -187,10 +186,11 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(List<MovieTrailer> movieTrailrs) {
+        protected void onPostExecute(List<MovieTrailer> movieTrailers) {
             progressDialog.setProgress(100);
             progressDialog.dismiss();
-            Toast.makeText(DetailActivity.this, "Trailer Name" + movieReviewsList, Toast.LENGTH_SHORT).show();
+//            MovieTrailer movieTrailer = movieTrailers.get(0);
+//            Toast.makeText(DetailActivity.this, "Review Author Name" + movieTrailer.getTrailer_name(), Toast.LENGTH_SHORT).show();
         }
     }
 
