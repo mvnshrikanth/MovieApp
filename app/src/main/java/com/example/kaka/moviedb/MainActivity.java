@@ -1,6 +1,7 @@
 package com.example.kaka.moviedb;
 
 import android.app.LoaderManager;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.res.Configuration;
@@ -12,7 +13,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.kaka.moviedb.data.Movie;
@@ -32,11 +32,11 @@ public class MainActivity extends AppCompatActivity
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private static final int MOVIE_LOADER_ID = 1;
 
-    private ProgressBar progressBar;
     private MovieAdapter movieAdapter;
     private RecyclerView recyclerView;
     private TextView textView;
     private List<Movie> movieList;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +45,9 @@ public class MainActivity extends AppCompatActivity
         GridLayoutManager gridLayoutManager;
 
         movieList = new ArrayList<>();
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading Movies ...");
+
 
         textView = (TextView) findViewById(R.id.tv_error_message_display);
         recyclerView = (RecyclerView) findViewById(R.id.rv_movie_list);
@@ -62,7 +65,6 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(movieAdapter);
 
-        progressBar = (ProgressBar) findViewById(R.id.pb_loading_indicator);
         loadMovieData(SORT_TYPE_POPULARITY);
     }
 
@@ -87,7 +89,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void loadMovieData(String sort_type) {
-
+        progressDialog.show();
         LoaderManager loaderManager = getLoaderManager();
         Bundle bundle = new Bundle();
         bundle.putString("sort_type", sort_type);
@@ -114,7 +116,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> movieReturnList) {
-        progressBar.setVisibility(View.INVISIBLE);
+
+        progressDialog.setProgress(100);
+        progressDialog.dismiss();
+
         if (movieReturnList != null) {
             recyclerView.setVisibility(View.VISIBLE);
             textView.setVisibility(View.INVISIBLE);
