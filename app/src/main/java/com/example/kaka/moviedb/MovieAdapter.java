@@ -2,7 +2,6 @@ package com.example.kaka.moviedb;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,7 @@ import java.util.List;
  * Created by Kaka on 3/14/2017.
  */
 
-public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder> {
+public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolderMovie> {
 
     private static final String LOG_TAG = MovieAdapter.class.getSimpleName();
     private final MovieAdapterOnClickHandler mClickHandler;
@@ -30,16 +29,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolderMovie onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.movie_item, parent, false);
-        return new MyViewHolder(view);
+        return new MyViewHolderMovie(view);
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolderMovie holder, int position) {
         Movie movie = movieList.get(position);
-        Log.v(LOG_TAG, String.valueOf(position));
+
         if (movie.getPosterPath().equals("null") || movie.getPosterPath().equals("")) {
             holder.imageViewPoster.setImageResource(R.drawable.not_found);
         } else {
@@ -65,11 +64,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
         void onClick(Movie movie);
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class MyViewHolderMovie extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public final ImageView imageViewPoster;
 
-        public MyViewHolder(View itemView) {
+        public MyViewHolderMovie(View itemView) {
             super(itemView);
             imageViewPoster = (ImageView) itemView.findViewById(R.id.iv_movie_poster);
             itemView.setOnClickListener(this);

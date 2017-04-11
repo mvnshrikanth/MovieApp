@@ -14,8 +14,8 @@
 
         <ImageView
             android:id="@+id/iv_trailer_poster"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:contentDescription="@string/str_trailer_poster"
             android:scaleType="fitXY"
             android:src="@drawable/not_found" />

@@ -35,7 +35,11 @@ public class DetailActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private List<MovieTrailer> movieTrailersList;
     private List<MovieReview> movieReviewsList;
+    private String overview;
     private ProgressDialog progressDialog;
+    private Boolean loadTrailerFlag = false;
+    private Boolean loadReviewFlag = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,13 +121,18 @@ public class DetailActivity extends AppCompatActivity {
 
         loadMovieTrailersAndReviews(movie.getMovieId());
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
-        CategoryAdapter categoryAdapter = new CategoryAdapter(this, getSupportFragmentManager());
-        viewPager.setAdapter(categoryAdapter);
+        overview = movie.getOverview();
+    }
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-        tabLayout.setupWithViewPager(viewPager);
+    public void loadViewPager() {
+        if (loadTrailerFlag && loadReviewFlag) {
+            ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+            CategoryAdapter categoryAdapter = new CategoryAdapter(getApplicationContext(), getSupportFragmentManager(), overview, movieReviewsList, movieTrailersList);
+            viewPager.setAdapter(categoryAdapter);
 
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+            tabLayout.setupWithViewPager(viewPager);
+        }
     }
 
     private void loadMovieTrailersAndReviews(String movieId) {
@@ -160,6 +169,9 @@ public class DetailActivity extends AppCompatActivity {
         protected void onPostExecute(List<MovieReview> movieReviews) {
             progressDialog.setProgress(100);
             progressDialog.dismiss();
+            movieReviewsList = movieReviews;
+            loadReviewFlag = true;
+            loadViewPager();
         }
     }
 
@@ -189,10 +201,9 @@ public class DetailActivity extends AppCompatActivity {
         protected void onPostExecute(List<MovieTrailer> movieTrailers) {
             progressDialog.setProgress(100);
             progressDialog.dismiss();
-//            MovieTrailer movieTrailer = movieTrailers.get(0);
-//            Toast.makeText(DetailActivity.this, "Review Author Name" + movieTrailer.getTrailer_name(), Toast.LENGTH_SHORT).show();
+            movieTrailersList = movieTrailers;
+            loadTrailerFlag = true;
+            loadViewPager();
         }
     }
-
-
 }

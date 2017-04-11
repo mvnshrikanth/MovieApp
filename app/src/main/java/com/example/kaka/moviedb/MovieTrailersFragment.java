@@ -2,15 +2,24 @@ package com.example.kaka.moviedb;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.kaka.moviedb.data.MovieTrailer;
+
+import java.util.List;
 
 /**
  * Created by Kaka on 4/6/2017.
  */
 
 public class MovieTrailersFragment extends Fragment {
+    public static final String MOVIE_TRAILERS_KEY = "trailer";
+    private List<MovieTrailer> movieTrailerList;
+
     public MovieTrailersFragment() {
     }
 
@@ -21,6 +30,16 @@ public class MovieTrailersFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.movie_trailers_fragment, container, false);
+        View view = inflater.inflate(R.layout.movie_trailers_fragment, container, false);
+        savedInstanceState = this.getArguments();
+        movieTrailerList = (List<MovieTrailer>) savedInstanceState.getSerializable(MOVIE_TRAILERS_KEY);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rv_movie_trailer_list);
+        TrailerAdapter trailerAdapter = new TrailerAdapter(view.getContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(trailerAdapter);
+        trailerAdapter.prepareMovieTrailers(movieTrailerList);
+        return view;
     }
+
 }
