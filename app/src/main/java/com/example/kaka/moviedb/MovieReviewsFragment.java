@@ -18,7 +18,6 @@ import java.util.List;
 
 public class MovieReviewsFragment extends Fragment {
     public static final String MOVIE_REVIEW_KEY = "review";
-    private List<MovieReview> movieReviewList;
 
     public MovieReviewsFragment() {
     }
@@ -32,11 +31,12 @@ public class MovieReviewsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.movie_review_fragment, container, false);
         savedInstanceState = this.getArguments();
-        movieReviewList = (List<MovieReview>) savedInstanceState.getSerializable(MOVIE_REVIEW_KEY);
+        List<MovieReview> movieReviewList = (List<MovieReview>) savedInstanceState.getSerializable(MOVIE_REVIEW_KEY);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rv_movie_review_list);
         ReviewAdapter reviewAdapter = new ReviewAdapter(view.getContext());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setNestedScrollingEnabled(true);
         recyclerView.setAdapter(reviewAdapter);
         reviewAdapter.prepareMovieReviews(movieReviewList);
         return view;

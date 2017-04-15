@@ -18,7 +18,6 @@ import java.util.List;
 
 public class MovieTrailersFragment extends Fragment {
     public static final String MOVIE_TRAILERS_KEY = "trailer";
-    private List<MovieTrailer> movieTrailerList;
 
     public MovieTrailersFragment() {
     }
@@ -32,11 +31,12 @@ public class MovieTrailersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.movie_trailers_fragment, container, false);
         savedInstanceState = this.getArguments();
-        movieTrailerList = (List<MovieTrailer>) savedInstanceState.getSerializable(MOVIE_TRAILERS_KEY);
+        List<MovieTrailer> movieTrailerList = (List<MovieTrailer>) savedInstanceState.getSerializable(MOVIE_TRAILERS_KEY);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rv_movie_trailer_list);
         TrailerAdapter trailerAdapter = new TrailerAdapter(view.getContext());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setNestedScrollingEnabled(true);
         recyclerView.setAdapter(trailerAdapter);
         trailerAdapter.prepareMovieTrailers(movieTrailerList);
         return view;
