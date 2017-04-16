@@ -2,6 +2,7 @@ package com.example.kaka.moviedb;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -34,9 +35,11 @@ public class MovieTrailersFragment extends Fragment {
         List<MovieTrailer> movieTrailerList = (List<MovieTrailer>) savedInstanceState.getSerializable(MOVIE_TRAILERS_KEY);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rv_movie_trailer_list);
         TrailerAdapter trailerAdapter = new TrailerAdapter(view.getContext());
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setNestedScrollingEnabled(true);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(trailerAdapter);
         trailerAdapter.prepareMovieTrailers(movieTrailerList);
         return view;

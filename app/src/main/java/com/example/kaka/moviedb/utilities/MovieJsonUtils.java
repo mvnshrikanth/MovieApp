@@ -17,10 +17,6 @@ import java.util.List;
 
 public class MovieJsonUtils {
 
-    public static final String REVIEWS = "content";
-    public static final String REVIEW_AUTHOR = "author";
-    public static final String TRAILER_KEY = "key";
-    public static final String TRAILER_NAME = "name";
     private static final String ORIGINAL_TITLE = "original_title";
     private static final String POSTER_PATH = "poster_path";
     private static final String RELEASE_DATE = "release_date";
@@ -29,6 +25,10 @@ public class MovieJsonUtils {
     private static final String BACKDROP_IMAGE = "backdrop_path";
     private static final String MOVIE_ID = "id";
     private static final String GENRE = "genre_ids";
+    private static final String REVIEWS = "content";
+    private static final String REVIEW_AUTHOR = "author";
+    private static final String TRAILER_KEY = "key";
+    private static final String TRAILER_NAME = "name";
 
     public static List<Movie> getMovieListFromJson(String movieJsonStr) throws JSONException {
 
