@@ -1,6 +1,10 @@
 package com.example.kaka.moviedb;
 
 import android.app.ProgressDialog;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,10 +16,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.kaka.moviedb.data.Movie;
+import com.example.kaka.moviedb.data.MovieContract.MovieEntry;
 import com.example.kaka.moviedb.data.MovieReview;
 import com.example.kaka.moviedb.data.MovieTrailer;
 import com.example.kaka.moviedb.utilities.MovieJsonUtils;
@@ -32,7 +36,6 @@ public class DetailActivity extends AppCompatActivity {
     public static final String MOVIE_TRAILERS = "videos";
     public static final String MOVIE_REVIEWS = "reviews";
     private static final String LOG_TAG = DetailActivity.class.getSimpleName();
-    private ProgressBar progressBar;
     private List<MovieTrailer> movieTrailersList;
     private List<MovieReview> movieReviewsList;
     private String overview;
@@ -40,13 +43,29 @@ public class DetailActivity extends AppCompatActivity {
     private Boolean loadTrailerFlag = false;
     private Boolean loadReviewFlag = false;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
         final Movie movie;
+        Boolean favInd = false;
+        final FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
+        final Boolean[] finalFavInd = new Boolean[1];
+        Cursor cursor;
+
+        String[] projection = {
+                MovieEntry.COLUMN_MOVIE_ID,
+                MovieEntry.COLUMN_ORIGINAL_TITLE,
+                MovieEntry.COLUMN_POSTER_PATH,
+                MovieEntry.COLUMN_RELEASE_DATE,
+                MovieEntry.COLUMN_OVERVIEW,
+                MovieEntry.COLUMN_VOTE_AVERAGE,
+                MovieEntry.COLUMN_BACKDROP_PATH,
+                MovieEntry.COLUMN_GENRE
+        };
+
+
         movieReviewsList = new ArrayList<>();
         movieTrailersList = new ArrayList<>();
         movie = this.getIntent().getParcelableExtra(MOVIE_DATA);
@@ -58,12 +77,48 @@ public class DetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        Uri uri = ContentUris.withAppendedId(MovieEntry.CONTENT_URI, Long.parseLong(movie.getMovieId()));
+        cursor = getContentResolver().query(uri, projection, null, null, null);
+
+        if (cursor.getCount() > 0) {
+            favInd = false;
+            floatingActionButton.setImageResource(R.drawable.ic_favorite_black_24dp);
+        } else {
+            favInd = true;
+            floatingActionButton.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+        }
+        finalFavInd[0] = favInd;
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action " + movie.getOriginalTitle(), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
+                if (finalFavInd[0]) {
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(MovieEntry.COLUMN_MOVIE_ID, movie.getMovieId());
+                    contentValues.put(MovieEntry.COLUMN_ORIGINAL_TITLE, movie.getOriginalTitle());
+                    contentValues.put(MovieEntry.COLUMN_POSTER_PATH, movie.getPosterPath());
+                    contentValues.put(MovieEntry.COLUMN_RELEASE_DATE, movie.getReleaseDate());
+                    contentValues.put(MovieEntry.COLUMN_OVERVIEW, movie.getOverview());
+                    contentValues.put(MovieEntry.COLUMN_VOTE_AVERAGE, movie.getVoteAverage());
+                    contentValues.put(MovieEntry.COLUMN_BACKDROP_PATH, movie.getBackdropPath());
+                    contentValues.put(MovieEntry.COLUMN_GENRE, movie.getGenre());
+                    Uri uri = getContentResolver().insert(MovieEntry.CONTENT_URI, contentValues);
+
+                    Snackbar.make(view, "Saved " + movie.getOriginalTitle() + " as favorite ", Snackbar.LENGTH_SHORT)
+                            .setAction("Action", null).show();
+
+                    floatingActionButton.setImageResource(R.drawable.ic_favorite_black_24dp);
+                    finalFavInd[0] = false;
+                } else {
+                    Uri uri = ContentUris.withAppendedId(MovieEntry.CONTENT_URI, Long.parseLong(movie.getMovieId()));
+                    int rowsDeleted = getContentResolver().delete(uri, null, null);
+
+                    Snackbar.make(view, "Deleted " + movie.getOriginalTitle() + " from favorite ", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                    floatingActionButton.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+                    finalFavInd[0] = true;
+                }
             }
         });
 
@@ -142,6 +197,9 @@ public class DetailActivity extends AppCompatActivity {
         movieTrailerAsyncTask.execute(movieId);
     }
 
+    private boolean isMovieFavorite(String movieID) {
+        return true;
+    }
 
     public class MovieReviewAsyncTask extends AsyncTask<String, Void, List<MovieReview>> {
         private final String LOG_TAG = MovieReviewAsyncTask.class.getSimpleName();

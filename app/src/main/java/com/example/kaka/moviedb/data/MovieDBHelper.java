@@ -23,7 +23,7 @@ public class MovieDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String SQL_CREATE_MOVIE_TABLE = "CREATE TABLE " + MovieEntry.TABLE_NAME + "("
-                + MovieEntry.COLUMN_MOVIE_ID + " INTEGER PRIMARY KEY,"
+                + MovieEntry.COLUMN_MOVIE_ID + " TEXT PRIMARY KEY,"
                 + MovieEntry.COLUMN_ORIGINAL_TITLE + " TEXT,"
                 + MovieEntry.COLUMN_POSTER_PATH + " TEXT,"
                 + MovieEntry.COLUMN_RELEASE_DATE + " TEXT,"

@@ -104,8 +104,8 @@ public class MovieProvider extends ContentProvider {
     private Uri insertStock(Uri uri, ContentValues values) {
         SQLiteDatabase sqLiteDatabase = movieDBHelper.getWritableDatabase();
 
-        int movieID = Integer.parseInt(values.getAsString(MovieEntry.COLUMN_MOVIE_ID));
-        if (movieID <= -1) throw new IllegalArgumentException("Requires a valid movie ID.");
+        String movieID = values.getAsString(MovieEntry.COLUMN_MOVIE_ID);
+        if (movieID.equals("")) throw new IllegalArgumentException("Requires a valid movie ID.");
         String movieTitle = values.getAsString(MovieEntry.COLUMN_ORIGINAL_TITLE);
         if (movieTitle.equals(""))
             throw new IllegalArgumentException("Requires a valid movie title.");
@@ -185,8 +185,9 @@ public class MovieProvider extends ContentProvider {
         SQLiteDatabase sqLiteDatabase = movieDBHelper.getWritableDatabase();
 
         if (values.containsKey(MovieEntry.COLUMN_MOVIE_ID)) {
-            int movieID = values.getAsInteger(MovieEntry.COLUMN_MOVIE_ID);
-            if (movieID <= -1) throw new IllegalArgumentException("Requires a valid movie ID.");
+            String movieID = values.getAsString(MovieEntry.COLUMN_MOVIE_ID);
+            if (movieID.equals(""))
+                throw new IllegalArgumentException("Requires a valid movie ID.");
         }
 
         if (values.containsKey(MovieEntry.COLUMN_ORIGINAL_TITLE)) {
