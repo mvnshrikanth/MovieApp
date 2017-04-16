@@ -27,6 +27,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.kaka.moviedb.MainActivity" />
         </activity>
+
+        <provider
+            android:name=".data.MovieProvider"
+            android:authorities="com.example.kaka.moviedb"
+            android:exported="false" />
     </application>
 
 </manifest>

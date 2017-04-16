@@ -1,6 +1,8 @@
 package com.example.kaka.moviedb.utilities;
 
 import com.example.kaka.moviedb.data.Movie;
+import com.example.kaka.moviedb.data.MovieReview;
+import com.example.kaka.moviedb.data.MovieTrailer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,10 +17,6 @@ import java.util.List;
 
 public class MovieJsonUtils {
 
-    public static final String REVIEWS = "content";
-    public static final String REVIEW_AUTHOR = "author";
-    public static final String TRAILER_KEY = "key";
-    public static final String TRAILER_NAME = "name";
     private static final String ORIGINAL_TITLE = "original_title";
     private static final String POSTER_PATH = "poster_path";
     private static final String RELEASE_DATE = "release_date";
@@ -27,6 +25,10 @@ public class MovieJsonUtils {
     private static final String BACKDROP_IMAGE = "backdrop_path";
     private static final String MOVIE_ID = "id";
     private static final String GENRE = "genre_ids";
+    private static final String REVIEWS = "content";
+    private static final String REVIEW_AUTHOR = "author";
+    private static final String TRAILER_KEY = "key";
+    private static final String TRAILER_NAME = "name";
 
     public static List<Movie> getMovieListFromJson(String movieJsonStr) throws JSONException {
 
@@ -48,6 +50,38 @@ public class MovieJsonUtils {
                     getGenre(movieDataObj.getJSONArray(GENRE))));
         }
         return movieList;
+    }
+
+    public static List<MovieReview> getMovieReviewListFromJson(String jsonReviewResponse) throws JSONException {
+        List<MovieReview> movieReviewsList = new ArrayList<>();
+        final String MOVIE_REVIEW_LIST = "results";
+
+        JSONObject movieReviewsJson = new JSONObject(jsonReviewResponse);
+        JSONArray movieReviewsArray = movieReviewsJson.getJSONArray(MOVIE_REVIEW_LIST);
+
+        for (int i = 0; i < movieReviewsArray.length(); i++) {
+            JSONObject movieReviewObj = movieReviewsArray.getJSONObject(i);
+            movieReviewsList.add(new MovieReview(movieReviewObj.getString(REVIEWS),
+                    movieReviewObj.getString(REVIEW_AUTHOR)));
+        }
+
+        return movieReviewsList;
+    }
+
+    public static List<MovieTrailer> getMovieTrailersListFromJson(String jsonTrailersResponse) throws JSONException {
+        List<MovieTrailer> movieTrailersList = new ArrayList<>();
+        final String MOVIE_TRAILER_LIST = "results";
+
+        JSONObject movieTrailersJson = new JSONObject(jsonTrailersResponse);
+        JSONArray movieTrailersArray = movieTrailersJson.getJSONArray(MOVIE_TRAILER_LIST);
+
+        for (int i = 0; i < movieTrailersArray.length(); i++) {
+            JSONObject movieTrailerObj = movieTrailersArray.getJSONObject(i);
+            movieTrailersList.add(new MovieTrailer(movieTrailerObj.getString(TRAILER_NAME),
+                    movieTrailerObj.getString(TRAILER_KEY)));
+        }
+
+        return movieTrailersList;
     }
 
     private static String getGenre(JSONArray jsonArray) throws JSONException {
@@ -129,4 +163,6 @@ public class MovieJsonUtils {
         }
         return genre;
     }
+
+
 }
