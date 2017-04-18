@@ -30,7 +30,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.kaka.moviedb.MainActivity.MOVIE_DATA;
+import static com.example.kaka.moviedb.MainActivityFragment.MOVIE_DATA;
 
 public class DetailActivity extends AppCompatActivity {
     public static final String MOVIE_TRAILERS = "videos";
