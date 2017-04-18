@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity
 
         if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             gridLayoutManager = new GridLayoutManager(MainActivity.this, 2);
-
         } else {
             gridLayoutManager = new GridLayoutManager(MainActivity.this, 4);
         }
