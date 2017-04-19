@@ -1,13 +1,11 @@
 package com.example.kaka.moviedb;
 
-
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -30,6 +28,7 @@ import static android.content.Context.MODE_PRIVATE;
 import static com.example.kaka.moviedb.MainActivity.MY_PREFERENCE;
 import static com.example.kaka.moviedb.MainActivity.MY_SORT_PREFERENCE_KEY;
 import static com.example.kaka.moviedb.MainActivity.SORT_TYPE_FAVORITE;
+import static com.example.kaka.moviedb.MainActivity.SORT_TYPE_POPULARITY;
 
 /**
  * Created by Kaka on 4/17/2017.
@@ -64,21 +63,13 @@ public class MainActivityFragment extends Fragment
         emptyView = view.findViewById(R.id.empty_view);
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_movie_list);
         movieAdapter = new MovieAdapter(view.getContext(), MainActivityFragment.this);
-
-        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            gridLayoutManager = new GridLayoutManager(view.getContext(), 2);
-        } else {
-            gridLayoutManager = new GridLayoutManager(view.getContext(), 4);
-        }
-
+        gridLayoutManager = new GridLayoutManager(view.getContext(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(movieAdapter);
-
         sharedPreferences = view.getContext().getSharedPreferences(MY_PREFERENCE, MODE_PRIVATE);
-
-        loadMovieData(sharedPreferences.getString(MY_SORT_PREFERENCE_KEY, SORT_TYPE_FAVORITE));
+        loadMovieData(sharedPreferences.getString(MY_SORT_PREFERENCE_KEY, SORT_TYPE_POPULARITY));
 
         return view;
     }
@@ -123,7 +114,6 @@ public class MainActivityFragment extends Fragment
     }
 
     private void loadMovieData(String sort_type) {
-
         progressDialog.show();
         LoaderManager loaderManager = getLoaderManager();
         Bundle bundle = new Bundle();
@@ -134,6 +124,6 @@ public class MainActivityFragment extends Fragment
         } else {
             loaderManager.restartLoader(MOVIE_LOADER_ID, bundle, this);
         }
-
     }
+
 }
