@@ -30,7 +30,9 @@ import com.example.kaka.moviedb.utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.example.kaka.moviedb.MainActivityFragment.MOVIE_DATA;
@@ -183,7 +185,19 @@ public class DetailActivityFragment extends Fragment {
             if (movie.getReleaseDate().equals("null") || movie.getReleaseDate().equals("")) {
                 textViewRlsDt.setText("NA");
             } else {
-                textViewRlsDt.setText(movie.getReleaseDate());
+
+                String date = movie.getReleaseDate();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+                Date testDate = null;
+                try {
+                    testDate = sdf.parse(date);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                SimpleDateFormat formatter = new SimpleDateFormat("MMM d, yy");
+                String newFormat = formatter.format(testDate);
+
+                textViewRlsDt.setText(newFormat);
             }
 
             if (movie.getGenre().equals("null") || movie.getGenre().equals("")) {
