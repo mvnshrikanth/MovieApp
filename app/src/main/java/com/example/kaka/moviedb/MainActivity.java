@@ -2,6 +2,8 @@ package com.example.kaka.moviedb;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -19,11 +21,36 @@ public class MainActivity extends AppCompatActivity {
     public static final String SORT_TYPE_FAVORITE = "favorite";
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     SharedPreferences sharedPreferences;
+    Boolean mFlag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        int screenSize = getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
+
+        switch (screenSize) {
+            case Configuration.SCREENLAYOUT_SIZE_LARGE:
+                mFlag = true;
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_NORMAL:
+                mFlag = false;
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_SMALL:
+                mFlag = false;
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_XLARGE:
+                mFlag = true;
+                break;
+            default:
+                mFlag = false;
+        }
+
+        if (!mFlag) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+
         sharedPreferences = getSharedPreferences(MY_PREFERENCE, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 

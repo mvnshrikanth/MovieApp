@@ -2,6 +2,8 @@ package com.example.kaka.moviedb;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,11 +24,35 @@ import static com.example.kaka.moviedb.MainActivityFragment.MOVIE_DATA;
 public class DetailActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = DetailActivity.class.getSimpleName();
+    Boolean mFlag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        int screenSize = getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
+
+        switch (screenSize) {
+            case Configuration.SCREENLAYOUT_SIZE_LARGE:
+                mFlag = true;
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_NORMAL:
+                mFlag = false;
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_SMALL:
+                mFlag = false;
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_XLARGE:
+                mFlag = true;
+                break;
+            default:
+                mFlag = false;
+        }
+
+        if (!mFlag) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
 
         if (savedInstanceState == null) {
             Bundle bundle = new Bundle();
@@ -35,7 +61,7 @@ public class DetailActivity extends AppCompatActivity {
             DetailActivityFragment detailActivityFragment = new DetailActivityFragment();
             detailActivityFragment.setArguments(bundle);
 
-            getSupportFragmentManager().beginTransaction()
+            getFragmentManager().beginTransaction()
                     .replace(R.id.detail_container, detailActivityFragment)
                     .commit();
         }

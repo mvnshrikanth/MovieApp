@@ -1,8 +1,10 @@
 package com.example.kaka.moviedb;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v13.app.FragmentPagerAdapter;
 
 import com.example.kaka.moviedb.data.MovieReview;
 import com.example.kaka.moviedb.data.MovieTrailer;
@@ -21,7 +23,7 @@ public class CategoryAdapter extends FragmentPagerAdapter {
     private List<MovieReview> movieReviewList;
     private String overview;
 
-    public CategoryAdapter(Context context, android.support.v4.app.FragmentManager fm, String overview,
+    public CategoryAdapter(Context context, FragmentManager fm, String overview,
                            List<MovieReview> movieReviewList, List<MovieTrailer> movieTrailerList) {
         super(fm);
         mContext = context;
@@ -31,7 +33,7 @@ public class CategoryAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public android.support.v4.app.Fragment getItem(int position) {
+    public Fragment getItem(int position) {
         if (position == 0) {
             Bundle bundle = new Bundle();
             bundle.putString(MovieOverviewsFragment.MOVIE_OVERVIEW_KEY, overview);

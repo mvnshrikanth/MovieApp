@@ -134,14 +134,14 @@ public class MainActivityFragment extends Fragment
     public void onClick(Movie movie) {
 
         if (mFlag) {
-//            Bundle bundle = new Bundle();
-//            bundle.putParcelable(MOVIE_DATA, movie);
-//            DetailActivityFragment detailActivityFragment = new DetailActivityFragment();
-//            detailActivityFragment.setArguments(bundle);
-//
-//            getFragmentManager().beginTransaction()
-//                    .replace(R.id.fragment_detail_container, detailActivityFragment)
-//                    .commit();
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(MOVIE_DATA, movie);
+            DetailActivityFragment detailActivityFragment = new DetailActivityFragment();
+            detailActivityFragment.setArguments(bundle);
+
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_detail_container, detailActivityFragment)
+                    .commit();
         } else {
             Intent intent = new Intent(view.getContext(), DetailActivity.class);
             intent.putExtra(MOVIE_DATA, movie);
