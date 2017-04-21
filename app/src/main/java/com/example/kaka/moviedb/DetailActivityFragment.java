@@ -2,9 +2,16 @@ package com.example.kaka.moviedb;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.res.Configuration;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -15,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kaka.moviedb.data.Movie;
+import com.example.kaka.moviedb.data.MovieContract.MovieEntry;
 import com.example.kaka.moviedb.data.MovieReview;
 import com.example.kaka.moviedb.data.MovieTrailer;
 import com.example.kaka.moviedb.utilities.MovieJsonUtils;
@@ -37,6 +45,7 @@ public class DetailActivityFragment extends Fragment {
     public static final String MOVIE_REVIEWS = "reviews";
     private static final String LOG_TAG = DetailActivityFragment.class.getSimpleName();
     public View view;
+    Boolean mFlag = false;
     private List<MovieTrailer> movieTrailersList;
     private List<MovieReview> movieReviewsList;
     private Boolean loadTrailerFlag = false;
@@ -49,9 +58,96 @@ public class DetailActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.detail_fragment, container, false);
 
+
+        int screenSize = getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
+
+        switch (screenSize) {
+            case Configuration.SCREENLAYOUT_SIZE_LARGE:
+                mFlag = true;
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_NORMAL:
+                mFlag = false;
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_SMALL:
+                mFlag = false;
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_XLARGE:
+                mFlag = true;
+                break;
+            default:
+                mFlag = false;
+        }
+
         final Movie movie = this.getArguments().getParcelable(MOVIE_DATA);
+        final FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab_tab_layout);
+
+        if (mFlag) {
+            Boolean favInd = false;
+            final Boolean[] finalFavInd = new Boolean[1];
+            Cursor cursor;
+
+            String[] projection = {
+                    MovieEntry.COLUMN_MOVIE_ID,
+                    MovieEntry.COLUMN_ORIGINAL_TITLE,
+                    MovieEntry.COLUMN_POSTER_PATH,
+                    MovieEntry.COLUMN_RELEASE_DATE,
+                    MovieEntry.COLUMN_OVERVIEW,
+                    MovieEntry.COLUMN_VOTE_AVERAGE,
+                    MovieEntry.COLUMN_BACKDROP_PATH,
+                    MovieEntry.COLUMN_GENRE
+            };
+
+            Uri uri = ContentUris.withAppendedId(MovieEntry.CONTENT_URI, Long.parseLong(movie.getMovieId()));
+            cursor = view.getContext().getContentResolver().query(uri, projection, null, null, null);
+
+            if (cursor.getCount() > 0) {
+                favInd = false;
+                floatingActionButton.setImageResource(R.drawable.ic_favorite_black_24dp);
+            } else {
+                favInd = true;
+                floatingActionButton.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+            }
+            finalFavInd[0] = favInd;
+
+            floatingActionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if (finalFavInd[0]) {
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put(MovieEntry.COLUMN_MOVIE_ID, movie.getMovieId());
+                        contentValues.put(MovieEntry.COLUMN_ORIGINAL_TITLE, movie.getOriginalTitle());
+                        contentValues.put(MovieEntry.COLUMN_POSTER_PATH, movie.getPosterPath());
+                        contentValues.put(MovieEntry.COLUMN_RELEASE_DATE, movie.getReleaseDate());
+                        contentValues.put(MovieEntry.COLUMN_OVERVIEW, movie.getOverview());
+                        contentValues.put(MovieEntry.COLUMN_VOTE_AVERAGE, movie.getVoteAverage());
+                        contentValues.put(MovieEntry.COLUMN_BACKDROP_PATH, movie.getBackdropPath());
+                        contentValues.put(MovieEntry.COLUMN_GENRE, movie.getGenre());
+                        Uri uri = view.getContext().getContentResolver().insert(MovieEntry.CONTENT_URI, contentValues);
+
+                        Snackbar.make(view, "Saved " + movie.getOriginalTitle() + " as favorite ", Snackbar.LENGTH_SHORT)
+                                .setAction("Action", null).show();
+
+                        floatingActionButton.setImageResource(R.drawable.ic_favorite_black_24dp);
+                        finalFavInd[0] = false;
+                    } else {
+                        Uri uri = ContentUris.withAppendedId(MovieEntry.CONTENT_URI, Long.parseLong(movie.getMovieId()));
+                        int rowsDeleted = view.getContext().getContentResolver().delete(uri, null, null);
+
+                        Snackbar.make(view, "Deleted " + movie.getOriginalTitle() + " from favorite ", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        floatingActionButton.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+                        finalFavInd[0] = true;
+                    }
+                }
+            });
+        } else {
+            floatingActionButton.setVisibility(View.GONE);
+        }
+
         movieReviewsList = new ArrayList<>();
         movieTrailersList = new ArrayList<>();
+
         progressDialog = new ProgressDialog(view.getContext());
         progressDialog.setMessage("Loading Movies Details...");
         progressDialog.show();

@@ -1,5 +1,6 @@
 package com.example.kaka.moviedb;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         getFragmentManager().beginTransaction()
-                .add(R.id.fragment_main_container, new MainActivityFragment(), "MainFragment")
+                .add(R.id.fragment_main_container, new MainActivityFragment())
                 .commit();
 
     }
@@ -108,8 +109,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
         getFragmentManager().beginTransaction()
-                .replace(R.id.fragment_main_container, new MainActivityFragment(), "MainFragment")
+                .replace(R.id.fragment_main_container, new MainActivityFragment())
                 .commit();
+
+        Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_detail_container);
+        if (fragment != null) {
+            getFragmentManager().beginTransaction()
+                    .remove(fragment)
+                    .commit();
+        }
+
 
         return super.onOptionsItemSelected(item);
     }
