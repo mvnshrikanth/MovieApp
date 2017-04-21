@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
-import com.example.kaka.moviedb.DetailActivity;
 import com.example.kaka.moviedb.MainActivity;
 import com.example.kaka.moviedb.R;
 
@@ -15,6 +14,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import static com.example.kaka.moviedb.DetailActivityFragment.MOVIE_REVIEWS;
 
 /**
  * Created by Kaka on 3/14/2017.
@@ -54,7 +55,7 @@ public class NetworkUtils {
     public static URL buildURL(Context context, String url_typ, String movieID) {
         URL url = null;
         Uri builtUri;
-        if (url_typ.equals(DetailActivity.MOVIE_REVIEWS)) {
+        if (url_typ.equals(MOVIE_REVIEWS)) {
             builtUri = Uri.parse(MOVIE_BASE_URL + movieID + "/reviews?").buildUpon()
                     .appendQueryParameter(API_KEY_PARAM, context.getResources().getString(R.string.api_key))
                     .build();

@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -41,6 +42,7 @@ public class MainActivityFragment extends Fragment
     private static final String LOG_TAG = MainActivityFragment.class.getSimpleName();
     private static final int MOVIE_LOADER_ID = 1;
     SharedPreferences sharedPreferences;
+    Boolean mFlag = false;
     private View view;
     private MovieAdapter movieAdapter;
     private RecyclerView recyclerView;
@@ -48,10 +50,32 @@ public class MainActivityFragment extends Fragment
     private List<Movie> movieList;
     private ProgressDialog progressDialog;
 
+    public MainActivityFragment() {
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.main_fragment, container, false);
+
+        int screenSize = getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
+
+        switch (screenSize) {
+            case Configuration.SCREENLAYOUT_SIZE_LARGE:
+                mFlag = true;
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_NORMAL:
+                mFlag = false;
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_SMALL:
+                mFlag = false;
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_XLARGE:
+                mFlag = true;
+                break;
+            default:
+                mFlag = false;
+        }
 
         GridLayoutManager gridLayoutManager;
 
@@ -80,7 +104,7 @@ public class MainActivityFragment extends Fragment
         if (args.getString("sort_type").equals(SORT_TYPE_FAVORITE)) {
             return new MovieLoader(view.getContext(), MovieContract.MovieEntry.CONTENT_URI);
         } else {
-            movieRequestUrl = NetworkUtils.buildURL(view.getContext(), args.getString("sort_type"));
+            movieRequestUrl = NetworkUtils.buildURL(getActivity(), args.getString("sort_type"));
             return new MovieLoader(view.getContext(), movieRequestUrl);
         }
     }
@@ -108,9 +132,21 @@ public class MainActivityFragment extends Fragment
 
     @Override
     public void onClick(Movie movie) {
-        Intent intent = new Intent(view.getContext(), DetailActivity.class);
-        intent.putExtra(MOVIE_DATA, movie);
-        startActivity(intent);
+
+        if (mFlag) {
+//            Bundle bundle = new Bundle();
+//            bundle.putParcelable(MOVIE_DATA, movie);
+//            DetailActivityFragment detailActivityFragment = new DetailActivityFragment();
+//            detailActivityFragment.setArguments(bundle);
+//
+//            getFragmentManager().beginTransaction()
+//                    .replace(R.id.fragment_detail_container, detailActivityFragment)
+//                    .commit();
+        } else {
+            Intent intent = new Intent(view.getContext(), DetailActivity.class);
+            intent.putExtra(MOVIE_DATA, movie);
+            startActivity(intent);
+        }
     }
 
     private void loadMovieData(String sort_type) {
