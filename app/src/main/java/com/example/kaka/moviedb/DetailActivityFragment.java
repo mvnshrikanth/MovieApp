@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
@@ -35,6 +36,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+import static com.example.kaka.moviedb.MainActivity.MY_PREFERENCE;
+import static com.example.kaka.moviedb.MainActivity.MY_SORT_PREFERENCE_KEY;
+import static com.example.kaka.moviedb.MainActivity.SORT_TYPE_FAVORITE;
 import static com.example.kaka.moviedb.MainActivityFragment.MOVIE_DATA;
 
 /**
@@ -48,6 +53,7 @@ public class DetailActivityFragment extends Fragment {
     private static final String LOG_TAG = DetailActivityFragment.class.getSimpleName();
     public View view;
     Boolean mFlag = false;
+    SharedPreferences sharedPreferences;
     private List<MovieTrailer> movieTrailersList;
     private List<MovieReview> movieReviewsList;
     private Boolean loadTrailerFlag = false;
@@ -60,6 +66,7 @@ public class DetailActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.detail_fragment, container, false);
 
+        sharedPreferences = view.getContext().getSharedPreferences(MY_PREFERENCE, MODE_PRIVATE);
 
         int screenSize = getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
 
@@ -103,10 +110,10 @@ public class DetailActivityFragment extends Fragment {
             cursor = view.getContext().getContentResolver().query(uri, projection, null, null, null);
 
             if (cursor.getCount() > 0) {
-                favInd = false;
+                favInd = true;
                 floatingActionButton.setImageResource(R.drawable.ic_favorite_black_24dp);
             } else {
-                favInd = true;
+                favInd = false;
                 floatingActionButton.setImageResource(R.drawable.ic_favorite_border_black_24dp);
             }
             finalFavInd[0] = favInd;
@@ -115,7 +122,7 @@ public class DetailActivityFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
 
-                    if (finalFavInd[0]) {
+                    if (!finalFavInd[0]) {
                         ContentValues contentValues = new ContentValues();
                         contentValues.put(MovieEntry.COLUMN_MOVIE_ID, movie.getMovieId());
                         contentValues.put(MovieEntry.COLUMN_ORIGINAL_TITLE, movie.getOriginalTitle());
@@ -136,21 +143,37 @@ public class DetailActivityFragment extends Fragment {
                         Uri uri = ContentUris.withAppendedId(MovieEntry.CONTENT_URI, Long.parseLong(movie.getMovieId()));
                         int rowsDeleted = view.getContext().getContentResolver().delete(uri, null, null);
 
+
                         Snackbar.make(view, "Deleted " + movie.getOriginalTitle() + " from favorite ", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                         floatingActionButton.setImageResource(R.drawable.ic_favorite_border_black_24dp);
                         finalFavInd[0] = true;
                     }
+
+                    if (sharedPreferences.getString(MY_SORT_PREFERENCE_KEY, SORT_TYPE_FAVORITE).equals(SORT_TYPE_FAVORITE)) {
+
+                        getFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_main_container, new MainActivityFragment())
+                                .commit();
+
+                        getFragmentManager().beginTransaction()
+                                .remove(getFragmentManager().findFragmentById(R.id.fragment_detail_container))
+                                .commit();
+                    }
                 }
             });
-        } else {
+        } else
+
+        {
             floatingActionButton.setVisibility(View.GONE);
         }
 
         movieReviewsList = new ArrayList<>();
         movieTrailersList = new ArrayList<>();
 
-        progressDialog = new ProgressDialog(view.getContext());
+        progressDialog = new
+
+                ProgressDialog(view.getContext());
         progressDialog.setMessage("Loading Movies Details...");
         progressDialog.show();
 
@@ -161,7 +184,9 @@ public class DetailActivityFragment extends Fragment {
         TextView textViewGenre = (TextView) view.findViewById(R.id.tv_genre);
         TextView textViewTitle = (TextView) view.findViewById(R.id.tv_movie_title);
 
-        try {
+        try
+
+        {
 
             if (movie.getOriginalTitle().equals("null") || movie.getOriginalTitle().equals("")) {
                 textViewTitle.setText("NA");
@@ -206,7 +231,10 @@ public class DetailActivityFragment extends Fragment {
                 textViewGenre.setText(movie.getGenre());
             }
 
-        } catch (NullPointerException e) {
+        } catch (
+                NullPointerException e)
+
+        {
             Log.e(LOG_TAG, "Exception occurred", e);
         }
 
