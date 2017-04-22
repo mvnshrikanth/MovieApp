@@ -10,4 +10,5 @@
     <dimen name="card_elevation">3dp</dimen>
     <dimen name="layout_margins">10dp</dimen>
     <dimen name="list_item_height">88dp</dimen>
+    <dimen name="trailer_text_padding">10dp</dimen>
 </resources>
