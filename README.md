@@ -16,8 +16,7 @@ The app uses The Movie Database[https://www.themoviedb.org/?language=en] API to 
 
 ## Built With
 
-* [ButterKnife](http://jakewharton.github.io/butterknife/)
-* [OkHttp](http://square.github.io/okhttp/)
+* [Android Support Library](https://developer.android.com/topic/libraries/support-library/index.html)
 * [Picasso](http://square.github.io/picasso/)
 
 ## License
