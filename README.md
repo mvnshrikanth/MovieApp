@@ -1,4 +1,4 @@
-# Project Title
+# Movie App
 
 Its an android Movie app which I made from scratch for Android Developer Nanodegree program. This app reveals the power of adaptive UI both for phone and tablet devices.
 
